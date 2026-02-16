@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>CMS PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+:root{
+  --bg:#070711;
+  --panel: rgba(255,255,255,.06);
+  --stroke: rgba(255,255,255,.12);
+  --txt:#ffffff;
+  --muted: rgba(255,255,255,.72);
+  --pink:#ff00aa;
+  --pink2:#ff4bd0;
+  --shadow: 0 20px 60px rgba(0,0,0,.45);
+  --r:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  color:var(--txt);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:
+    radial-gradient(900px 600px at 15% 10%, rgba(255,0,170,.18), transparent 60%),
+    radial-gradient(900px 600px at 85% 20%, rgba(120,80,255,.12), transparent 60%),
+    radial-gradient(900px 600px at 50% 90%, rgba(0,255,210,.08), transparent 60%),
+    var(--bg);
+  min-height:100vh;
+}
+.wrap{max-width:1100px;margin:0 auto;padding:26px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.brand{display:flex;flex-direction:column;gap:6px}
+.brand h2{margin:0;font-size:20px;letter-spacing:.3px}
+.small{font-size:12px;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.glass{
+  background: linear-gradient(180deg, var(--panel), rgba(255,255,255,.04));
+  border:1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  border-radius: var(--r);
+  backdrop-filter: blur(10px);
+}
+.card{padding:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:12px}
+
+input, textarea, select{
+  width:100%;
+  padding:11px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.35);
+  color:var(--txt);
+  outline:none;
+  margin-top:10px;
+}
+textarea{min-height:96px;resize:vertical}
+label.inline{
+  display:flex;gap:10px;align-items:center;margin-top:10px;color:var(--muted);font-size:13px;
+}
+hr{border:0;border-top:1px solid rgba(255,255,255,.10);margin:14px 0}
+
+.btn{
+  border:none;cursor:pointer;
+  padding:10px 12px;border-radius:14px;
+  font-weight:800;letter-spacing:.2px;
+  color:#fff;
+  background: linear-gradient(135deg, var(--pink), var(--pink2));
+  box-shadow: 0 14px 30px rgba(255,0,170,.15);
+}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(1px)}
+.btn.secondary{
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.90);
+  box-shadow:none;
+}
+.btn.danger{
+  background: rgba(255, 60, 120, .12);
+  border:1px solid rgba(255, 60, 120, .25);
+  color:#ffd7e8;
+}
+
+.badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{
+  font-size:12px;color:rgba(255,255,255,.85);
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  padding:4px 10px;border-radius:999px;
+}
+.badge.published{border-color: rgba(0,255,200,.22); background: rgba(0,255,200,.06)}
+.badge.draft{border-color: rgba(255,255,255,.14); opacity:.9}
+.meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.title{margin:10px 0 8px 0;font-size:16px;line-height:1.2}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.kpi{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.pill{
+  font-size:12px;color:rgba(255,255,255,.78);
+  border:1px solid rgba(255,255,255,.12);
+  padding:6px 10px;border-radius:999px;background: rgba(0,0,0,.25);
+}
+.twoCols{display:grid;grid-template-columns:1.3fr .7fr;gap:12px}
+@media (max-width:900px){.twoCols{grid-template-columns:1fr}}
+
+.thumbPreviewWrap{margin-top:12px}
+.thumbPreview{
+  width: 100%;
+  max-width: 360px;
+  height: 180px;                 /* ✅ taille fixe */
+  border-radius: 14px;
+  overflow: hidden;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.35);
+}
+.thumbPreview img{
+  width:100%;
+  height:100%;
+  object-fit: cover;             /* ✅ crop intelligent */
+  display:block;
+}
+
+.cardThumb{
+  width: 100%;
+  height: 180px;                 /* ✅ taille fixe partout */
+  border-radius: 14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.35);
+  margin-top:10px;
+}
+.cardThumb img{
+  width:100%;
+  height:100%;
+  object-fit: cover;             /* ✅ crop intelligent */
+  display:block;
+}
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="top">
+      <div class="brand">
+        <h2>CMS PRO</h2>
+        <div id="userInfo" class="small">Vérification...</div>
+        <div class="kpi">
+          <div class="pill" id="count">0 item(s)</div>
+          <div class="pill" id="modePill">Mode : Ajout</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn secondary" id="refreshBtn">Rafraîchir</button>
+        <button class="btn secondary" id="clearBtn">Vider formulaire</button>
+        <button class="btn" onclick="logout()">Déconnexion</button>
+      </div>
+    </div>
+
+    <div class="twoCols">
+      <!-- FORM -->
+      <div class="glass card">
+        <div class="meta">
+          <div style="font-weight:900">Éditeur</div>
+          <div class="small"><strong id="formModeLabel">AJOUT</strong></div>
+        </div>
+
+        <input id="title" placeholder="Titre">
+        <select id="type">
+          <option value="youtube">Vidéo YouTube</option>
+          <option value="download">Lien téléchargement</option>
+          <option value="tutorial">Tutoriel texte</option>
+        </select>
+
+        <input id="youtube" placeholder="Lien YouTube (si type youtube)">
+        <input id="download" placeholder="Lien download (si type download)">
+        <textarea id="body" placeholder="Texte (si type tutorial)"></textarea>
+
+        <!-- ✅ Upload miniature -->
+        <div class="thumbPreviewWrap">
+          <div class="small">Miniature (optionnel)</div>
+          <input id="thumbFile" type="file" accept="image/*">
+          <div class="thumbPreview" id="thumbPreview" style="display:none">
+            <img id="thumbPreviewImg" alt="preview">
+          </div>
+          <div class="small" id="thumbInfo"></div>
+        </div>
+
+        <label class="inline">
+          <input type="checkbox" id="published">
+          <span>Publié</span>
+        </label>
+
+        <div class="actions">
+          <button class="btn" onclick="saveContent()">Enregistrer</button>
+          <button class="btn secondary" id="cancelEditBtn" style="display:none" onclick="cancelEdit()">Annuler édition</button>
+          <span id="msg" class="small"></span>
+        </div>
+      </div>
+
+      <!-- FILTER -->
+      <div class="glass card">
+        <div style="font-weight:900">Recherche</div>
+        <input id="q" placeholder="Chercher (titre, type)">
+        <select id="filterPub">
+          <option value="all">Tous</option>
+          <option value="published">Publiés</option>
+          <option value="draft">Brouillons</option>
+        </select>
+        <div class="actions">
+          <button class="btn secondary" onclick="applyFilters()">Appliquer</button>
+          <button class="btn secondary" onclick="resetFilters()">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIST -->
+    <div class="glass card" style="margin-top:16px">
+      <div class="meta">
+        <div style="font-weight:900">Mes contenus</div>
+        <div class="small" id="status"></div>
+      </div>
+      <hr>
+      <div id="list" class="grid"></div>
+      <div id="empty" class="small" style="display:none;opacity:.75">Aucun contenu.</div>
+    </div>
+
+  </div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+
+const supabaseUrl = "https://hqsogbtviyleioxlfuaa.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhxc29nYnR2aXlsZWlveGxmdWFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzExNjE1MjYsImV4cCI6MjA4NjczNzUyNn0.lFJ2hi4esPILv069ypGGrvZX-5xirgqBT_2l0Op9UFQ";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+let allItems = [];
+let editingId = null;
+let currentThumbUrl = null; // ✅ stocke l'URL miniature du post en cours
+
+// guard
+const { data: { session } } = await supabase.auth.getSession();
+if(!session) window.location.href = "login.html";
+document.getElementById("userInfo").innerText = "Connecté : " + (session.user.email ?? "");
+
+function esc(s){ return (s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
+function setMsg(t){ document.getElementById("msg").innerText = t || ""; }
+function setStatus(t){ document.getElementById("status").innerText = t || ""; }
+
+function setMode(isEdit){
+  document.getElementById("modePill").innerText = isEdit ? "Mode : Édition" : "Mode : Ajout";
+  document.getElementById("formModeLabel").innerText = isEdit ? "ÉDITION" : "AJOUT";
+  document.getElementById("cancelEditBtn").style.display = isEdit ? "inline-block" : "none";
+}
+
+window.logout = async function(){
+  await supabase.auth.signOut();
+  window.location.href="login.html";
+}
+
+function clearThumbUI(){
+  document.getElementById("thumbFile").value = "";
+  document.getElementById("thumbPreview").style.display = "none";
+  document.getElementById("thumbPreviewImg").src = "";
+  document.getElementById("thumbInfo").innerText = "";
+}
+
+function clearForm(){
+  document.getElementById("title").value="";
+  document.getElementById("type").value="youtube";
+  document.getElementById("youtube").value="";
+  document.getElementById("download").value="";
+  document.getElementById("body").value="";
+  document.getElementById("published").checked=false;
+  editingId = null;
+  currentThumbUrl = null;
+  clearThumbUI();
+  setMode(false);
+  setMsg("");
+}
+document.getElementById("clearBtn").addEventListener("click", clearForm);
+
+window.cancelEdit = function(){ clearForm(); }
+
+// ✅ preview locale du fichier
+document.getElementById("thumbFile").addEventListener("change", (e) => {
+  const file = e.target.files?.[0];
+  if(!file){ clearThumbUI(); return; }
+  document.getElementById("thumbInfo").innerText = `Fichier: ${file.name}`;
+  const url = URL.createObjectURL(file);
+  document.getElementById("thumbPreviewImg").src = url;
+  document.getElementById("thumbPreview").style.display = "block";
+});
+
+// ✅ Upload thumbnail dans Storage + retourne URL publique
+async function uploadThumbnailIfAny(){
+  const file = document.getElementById("thumbFile").files?.[0];
+  if(!file) return currentThumbUrl; // si pas de nouveau fichier, on garde l'ancien (édition)
+
+  // nom unique
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+  const filename = `${crypto.randomUUID()}.${ext}`;
+  const path = `thumbs/${filename}`;
+
+  // upload
+  const { error: upErr } = await supabase
+    .storage
+    .from("thumbnails")
+    .upload(path, file, { upsert: false, contentType: file.type });
+
+  if(upErr) throw new Error("Upload miniature: " + upErr.message);
+
+  // URL publique
+  const { data } = supabase.storage.from("thumbnails").getPublicUrl(path);
+  return data.publicUrl;
+}
+
+window.saveContent = async function(){
+  const title = document.getElementById("title").value.trim();
+  const type = document.getElementById("type").value;
+  const youtube = document.getElementById("youtube").value.trim();
+  const download = document.getElementById("download").value.trim();
+  const body = document.getElementById("body").value.trim();
+  const published = document.getElementById("published").checked;
+
+  if(!title){ setMsg("Titre obligatoire."); return; }
+  if(type === "youtube" && !youtube){ setMsg("Ajoute un lien YouTube (ou change le type)."); return; }
+  if(type === "download" && !download){ setMsg("Ajoute un lien de téléchargement (ou change le type)."); return; }
+  if(type === "tutorial" && !body){ setMsg("Ajoute un texte de tutoriel (ou change le type)."); return; }
+
+  try{
+    setMsg("Upload/Enregistrement…");
+
+    // ✅ upload miniature si présente
+    const thumbUrl = await uploadThumbnailIfAny();
+    currentThumbUrl = thumbUrl || null;
+
+    const payload = {
+      title,
+      type,
+      youtube_url: youtube || null,
+      download_url: download || null,
+      body: body || null,
+      is_published: published,
+      thumb_url: currentThumbUrl
+    };
+
+    let error = null;
+
+    if(editingId){
+      ({ error } = await supabase.from("content_items").update(payload).eq("id", editingId));
+    } else {
+      const user = (await supabase.auth.getUser()).data.user;
+      ({ error } = await supabase.from("content_items").insert([{ ...payload, created_by: user.id }]));
+    }
+
+    if(error){ setMsg(error.message); return; }
+
+    setMsg(editingId ? "Modifié ✔" : "Ajouté ✔");
+    clearForm();
+    await loadList();
+
+  } catch(err){
+    setMsg(err?.message || "Erreur upload.");
+  }
+}
+
+window.togglePublish = async function(id, current){
+  const { error } = await supabase.from("content_items").update({ is_published: !current }).eq("id", id);
+  if(error){ alert(error.message); return; }
+  await loadList();
+}
+
+window.deleteItem = async function(id, title){
+  const ok = confirm(`Supprimer définitivement : "${title}" ?`);
+  if(!ok) return;
+
+  const { error } = await supabase.from("content_items").delete().eq("id", id);
+  if(error){ alert(error.message); return; }
+  if(editingId === id) clearForm();
+  await loadList();
+}
+
+window.editItem = function(id){
+  const item = allItems.find(x => x.id === id);
+  if(!item) return;
+
+  editingId = id;
+  currentThumbUrl = item.thumb_url || null;
+
+  document.getElementById("title").value = item.title ?? "";
+  document.getElementById("type").value = item.type ?? "youtube";
+  document.getElementById("youtube").value = item.youtube_url ?? "";
+  document.getElementById("download").value = item.download_url ?? "";
+  document.getElementById("body").value = item.body ?? "";
+  document.getElementById("published").checked = !!item.is_published;
+
+  // preview miniature existante (si existe)
+  clearThumbUI();
+  if(currentThumbUrl){
+    document.getElementById("thumbPreviewImg").src = currentThumbUrl;
+    document.getElementById("thumbPreview").style.display = "block";
+    document.getElementById("thumbInfo").innerText = "Miniature actuelle chargée (tu peux en uploader une nouvelle).";
+  }
+
+  setMode(true);
+  setMsg("Édition en cours…");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+window.applyFilters = function(){ renderList(filterItems(allItems)); }
+window.resetFilters = function(){
+  document.getElementById("q").value = "";
+  document.getElementById("filterPub").value = "all";
+  renderList(allItems);
+}
+
+function filterItems(items){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const fp = document.getElementById("filterPub").value;
+  return items.filter(it => {
+    const okQ = !q || (String(it.title||"").toLowerCase().includes(q) || String(it.type||"").toLowerCase().includes(q));
+    const okP = fp === "all" || (fp === "published" && it.is_published) || (fp === "draft" && !it.is_published);
+    return okQ && okP;
+  });
+}
+
+function renderCard(item){
+  const div = document.createElement("div");
+  div.className = "glass card";
+
+  const date = item.created_at ? new Date(item.created_at).toLocaleString() : "";
+  const pubText = item.is_published ? "PUBLIÉ" : "BROUILLON";
+  const pubClass = item.is_published ? "published" : "draft";
+
+  div.innerHTML = `
+    <div class="meta">
+      <div class="badges">
+        <span class="badge">${esc(item.type)}</span>
+        <span class="badge ${pubClass}">${pubText}</span>
+      </div>
+      <div class="small">${esc(date)}</div>
+    </div>
+
+    <div class="title">${esc(item.title)}</div>
+
+    ${item.thumb_url ? `
+      <div class="cardThumb">
+        <img src="${esc(item.thumb_url)}" alt="miniature">
+      </div>
+    ` : ""}
+
+    ${item.body ? `<div class="small" style="white-space:pre-wrap;opacity:.9;line-height:1.45;margin-top:10px">${esc(item.body)}</div>` : ""}
+
+    <hr>
+
+    <div class="actions">
+      <button class="btn secondary" onclick="editItem('${item.id}')">Éditer</button>
+      <button class="btn secondary" onclick="togglePublish('${item.id}', ${item.is_published})">
+        ${item.is_published ? "Dépublier" : "Publier"}
+      </button>
+      <button class="btn danger" onclick="deleteItem('${item.id}', '${esc(item.title).replaceAll("'", "\\'")}')">Supprimer</button>
+    </div>
+  `;
+  return div;
+}
+
+function renderList(items){
+  const list = document.getElementById("list");
+  const empty = document.getElementById("empty");
+  list.innerHTML = "";
+  if(!items || items.length === 0){
+    empty.style.display = "block";
+    return;
+  }
+  empty.style.display = "none";
+  items.forEach(it => list.appendChild(renderCard(it)));
+}
+
+async function loadList(){
+  setStatus("Chargement…");
+  const { data, error } = await supabase
+    .from("content_items")
+    .select("*")
+    .order("created_at", { ascending:false });
+
+  if(error){
+    document.getElementById("empty").style.display = "block";
+    document.getElementById("empty").innerText = "Erreur: " + error.message;
+    setStatus("");
+    return;
+  }
+
+  allItems = data || [];
+  document.getElementById("count").innerText = allItems.length + " item(s)";
+  setStatus("");
+  renderList(filterItems(allItems));
+}
+
+document.getElementById("refreshBtn").addEventListener("click", loadList);
+
+setMode(false);
+loadList();
+</script>
+</body>
+</html>

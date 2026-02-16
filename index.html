@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<title>Ressources</title>
+
+<style>
+:root{
+  --bg:#070711;
+  --panel: rgba(255,255,255,.06);
+  --stroke: rgba(255,255,255,.12);
+  --txt:#ffffff;
+  --muted: rgba(255,255,255,.72);
+  --pink:#ff00aa;
+  --pink2:#ff4bd0;
+  --shadow: 0 20px 60px rgba(0,0,0,.45);
+  --r:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  color:var(--txt);
+  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(900px 600px at 15% 10%, rgba(255,0,170,.18), transparent 60%),
+    radial-gradient(900px 600px at 85% 20%, rgba(120,80,255,.12), transparent 60%),
+    radial-gradient(900px 600px at 50% 90%, rgba(0,255,210,.08), transparent 60%),
+    var(--bg);
+  min-height:100vh;
+}
+h1, h2, h3, .title{
+  font-family: 'Poppins', sans-serif;
+  letter-spacing:0.3px;
+}
+
+.wrap{max-width:1100px;margin:0 auto;padding:26px}
+
+.glass{
+  background: linear-gradient(180deg, var(--panel), rgba(255,255,255,.04));
+  border:1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  border-radius: var(--r);
+  backdrop-filter: blur(10px);
+}
+
+header{
+  position:sticky; top:0; z-index:10;
+  border-bottom:1px solid rgba(255,255,255,.10);
+  background: rgba(7,7,17,.55);
+  backdrop-filter: blur(10px);
+}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+h1{margin:0;font-size:20px;letter-spacing:.3px}
+.small{font-size:12px;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+input, select{
+  padding:11px 12px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.35);
+  color:var(--txt); outline:none;
+}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:none;cursor:pointer;
+  padding:10px 12px;border-radius:14px;
+  font-weight:800;letter-spacing:.2px;
+  color:#fff;text-decoration:none;
+  background: linear-gradient(135deg, var(--pink), var(--pink2));
+  box-shadow: 0 14px 30px rgba(255,0,170,.15);
+}
+.btn:hover{filter:brightness(1.05)}
+.btn.secondary{
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.90);
+  box-shadow:none;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+  gap:12px;
+  margin-top:14px;
+}
+
+.card{padding:16px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{
+  font-size:12px;color:rgba(255,255,255,.85);
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  padding:4px 10px;border-radius:999px;
+}
+.title{margin:10px 0 8px 0;font-size:16px;line-height:1.2}
+.meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.body{white-space:pre-wrap;line-height:1.45;opacity:.92;margin-top:10px}
+
+.empty{
+  color:rgba(255,255,255,.75);
+  padding:18px;border:1px dashed rgba(255,255,255,.2);
+  border-radius:18px;margin-top:14px;
+}
+
+/* ✅ Miniature taille fixe */
+.thumb{
+  width:100%;
+  height:180px;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.35);
+  margin-top:12px;
+}
+.thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ❤️ Like button */
+.likeBar{
+  margin-top:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.likeBtn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-radius:14px;
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  cursor:pointer;
+  user-select:none;
+}
+.likeBtn:hover{filter:brightness(1.05)}
+.heart{
+  font-size:16px;
+  line-height:1;
+}
+.likeOn{
+  background: rgba(255,0,170,.14);
+  border-color: rgba(255,0,170,.30);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Loadix</h1>
+        <div class="small">Vidéos • Logiciels • Tutos</div>
+      </div>
+
+      <div class="row">
+        <input id="q" placeholder="Rechercher (titre/type)" />
+        <select id="typeFilter">
+          <option value="all">Tous</option>
+          <option value="youtube">YouTube</option>
+          <option value="download">Logiciels, apk, ...</option>
+          <option value="tutorial">Tutoriels</option>
+        </select>
+        <button class="btn secondary" id="refreshBtn">Rafraîchir</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="list" class="grid"></div>
+  <div id="empty" class="empty" style="display:none">Aucun contenu publié pour l’instant.</div>
+</main>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+
+const supabaseUrl = "https://hqsogbtviyleioxlfuaa.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhxc29nYnR2aXlsZWlveGxmdWFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzExNjE1MjYsImV4cCI6MjA4NjczNzUyNn0.lFJ2hi4esPILv069ypGGrvZX-5xirgqBT_2l0Op9UFQ";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+let allItems = [];
+let likeCountByContent = new Map();   // content_id -> number
+let likedByMe = new Set();            // content_id liked by this browser
+const clientId = getClientId();
+
+function esc(s){
+  return (s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+}
+
+function getClientId(){
+  const key = "client_id_like_v1";
+  let v = localStorage.getItem(key);
+  if(!v){
+    v = crypto.randomUUID();
+    localStorage.setItem(key, v);
+  }
+  return v;
+}
+
+function getYouTubeId(url){
+  try{
+    const u = new URL(url);
+    const shorts = u.pathname.match(/\/shorts\/([a-zA-Z0-9_-]+)/);
+    if (shorts?.[1]) return shorts[1];
+    const embed = u.pathname.match(/\/embed\/([a-zA-Z0-9_-]+)/);
+    if (embed?.[1]) return embed[1];
+    if(u.hostname.includes("youtu.be")){
+      const id = u.pathname.replace("/","");
+      return id || null;
+    }
+    return u.searchParams.get("v") || null;
+  } catch(e){
+    return null;
+  }
+}
+function youtubeThumb(id){
+  return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+}
+
+function addThumb(div, src, link){
+  const a = document.createElement("a");
+  a.href = link;
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.style.textDecoration = "none";
+
+  const t = document.createElement("div");
+  t.className = "thumb";
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = "miniature";
+
+  t.appendChild(img);
+  a.appendChild(t);
+  div.appendChild(a);
+}
+
+async function toggleLike(contentId){
+  const isOn = likedByMe.has(contentId);
+
+  if(isOn){
+    // unlike
+    const { error } = await supabase
+      .from("content_likes")
+      .delete()
+      .eq("content_id", contentId)
+      .eq("client_id", clientId);
+
+    if(error){ alert(error.message); return; }
+
+    likedByMe.delete(contentId);
+    likeCountByContent.set(contentId, Math.max(0, (likeCountByContent.get(contentId) || 1) - 1));
+  } else {
+    // like
+    const { error } = await supabase
+      .from("content_likes")
+      .insert([{ content_id: contentId, client_id: clientId }]);
+
+    if(error){
+      // si déjà liké (unique index), on marque juste localement
+      if(String(error.message || "").toLowerCase().includes("duplicate")){
+        likedByMe.add(contentId);
+        return;
+      }
+      alert(error.message);
+      return;
+    }
+
+    likedByMe.add(contentId);
+    likeCountByContent.set(contentId, (likeCountByContent.get(contentId) || 0) + 1);
+  }
+
+  applyFilters(); // rerender
+}
+
+function renderItem(item){
+  const div = document.createElement("div");
+  div.className = "glass card";
+
+  const date = item.created_at ? new Date(item.created_at).toLocaleString() : "";
+  div.innerHTML = `
+    <div class="meta">
+      <div class="badges"><span class="badge">${esc(item.type)}</span></div>
+      <div class="small">${esc(date)}</div>
+    </div>
+    <div class="title">${esc(item.title)}</div>
+  `;
+
+  // ✅ miniatures
+  if(item.thumb_url){
+    const link = item.youtube_url || item.download_url || "#";
+    addThumb(div, item.thumb_url, link);
+  } else if(item.type === "youtube" && item.youtube_url){
+    const id = getYouTubeId(item.youtube_url);
+    if(id) addThumb(div, youtubeThumb(id), item.youtube_url);
+  }
+
+  // action buttons
+  if(item.type === "youtube" && item.youtube_url){
+    const row = document.createElement("div");
+    row.className = "row";
+    row.style.marginTop = "10px";
+
+    const a = document.createElement("a");
+    a.className = "btn";
+    a.href = item.youtube_url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = "Voir sur YouTube";
+    row.appendChild(a);
+
+    div.appendChild(row);
+  }
+
+  if(item.type === "download" && item.download_url){
+    const row = document.createElement("div");
+    row.className = "row";
+    row.style.marginTop = "10px";
+
+    const a = document.createElement("a");
+    a.className = "btn";
+    a.href = item.download_url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = "Télécharger";
+    row.appendChild(a);
+
+    div.appendChild(row);
+  }
+
+  if(item.type === "tutorial" && item.body){
+    const p = document.createElement("div");
+    p.className = "body";
+    p.textContent = item.body;
+    div.appendChild(p);
+  }
+
+  // ❤️ Like bar
+  const count = likeCountByContent.get(item.id) || 0;
+  const isOn = likedByMe.has(item.id);
+
+  const likeBar = document.createElement("div");
+  likeBar.className = "likeBar";
+
+  const btn = document.createElement("div");
+  btn.className = "likeBtn" + (isOn ? " likeOn" : "");
+  btn.innerHTML = `<span class="heart">${isOn ? "❤️" : "🤍"}</span> <strong>Like</strong> <span class="small">(${count})</span>`;
+  btn.addEventListener("click", () => toggleLike(item.id));
+
+  const hint = document.createElement("div");
+  
+
+  likeBar.appendChild(btn);
+  likeBar.appendChild(hint);
+  div.appendChild(likeBar);
+
+  return div;
+}
+
+function applyFilters(){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const type = document.getElementById("typeFilter").value;
+
+  const filtered = allItems.filter(it => {
+    const okQ = !q || (String(it.title||"").toLowerCase().includes(q) || String(it.type||"").toLowerCase().includes(q));
+    const okT = type === "all" || it.type === type;
+    return okQ && okT;
+  });
+
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  if(!filtered.length){
+    document.getElementById("empty").style.display = "block";
+    document.getElementById("empty").textContent = "Aucun résultat.";
+    return;
+  }
+
+  document.getElementById("empty").style.display = "none";
+  filtered.forEach(item => list.appendChild(renderItem(item)));
+}
+
+async function loadLikes(){
+  // 1) quels contenus j'ai liké (par client_id)
+  const { data: mine, error: mineErr } = await supabase
+    .from("content_likes")
+    .select("content_id")
+    .eq("client_id", clientId);
+
+  if(!mineErr && mine){
+    likedByMe = new Set(mine.map(x => x.content_id));
+  }
+
+  // 2) tous les likes (on calcule en JS)
+  const { data: all, error: allErr } = await supabase
+    .from("content_likes")
+    .select("content_id");
+
+  if(!allErr && all){
+    likeCountByContent = new Map();
+    for(const row of all){
+      likeCountByContent.set(row.content_id, (likeCountByContent.get(row.content_id) || 0) + 1);
+    }
+  }
+}
+
+async function load(){
+  const { data, error } = await supabase
+    .from("content_items")
+    .select("id,title,type,youtube_url,download_url,body,is_published,created_at,thumb_url")
+    .eq("is_published", true)
+    .order("created_at", { ascending:false });
+
+  if(error){
+    document.getElementById("empty").style.display = "block";
+    document.getElementById("empty").textContent = "Erreur: " + error.message;
+    return;
+  }
+
+  allItems = data || [];
+
+  if(!allItems.length){
+    document.getElementById("empty").style.display = "block";
+    document.getElementById("empty").textContent = "Aucun contenu publié pour l’instant.";
+    return;
+  }
+
+  await loadLikes();
+  document.getElementById("empty").style.display = "none";
+  applyFilters();
+}
+
+document.getElementById("refreshBtn").addEventListener("click", load);
+document.getElementById("q").addEventListener("input", applyFilters);
+document.getElementById("typeFilter").addEventListener("change", applyFilters);
+
+load();
+</script>
+
+</body>
+</html>
